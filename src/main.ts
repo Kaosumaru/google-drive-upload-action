@@ -1,9 +1,8 @@
 import * as core from '@actions/core'
 import * as base64 from 'base-64'
-import { FileUploader } from './service'
-import { basename } from 'path';
-var tmp = require('temporary');
-
+import {FileUploader} from './service'
+import {basename} from 'path'
+var tmp = require('temporary')
 
 async function run(): Promise<void> {
   try {
@@ -12,12 +11,12 @@ async function run(): Promise<void> {
     const folderId = core.getInput('folderId')
     const driveId = core.getInput('driveId')
 
-    let authFile = new tmp.File();
-    authFile.writeFileSync(credentials);
+    const authFile = new tmp.File()
+    authFile.writeFileSync(credentials)
 
     core.notice(`Uploading ${filePath} to ${folderId}...`)
 
-    let uploader = new FileUploader(authFile.path, driveId);
+    const uploader = new FileUploader(authFile.path, driveId)
     uploader.uploadFile(basename(filePath), filePath, 'text/plain', folderId)
 
     core.notice(`Finished uploading ${filePath} to ${folderId}`)

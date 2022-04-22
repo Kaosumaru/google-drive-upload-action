@@ -1,6 +1,6 @@
 {
-  "name": "typescript-action",
-  "version": "0.0.0",
+  "name": "google-drive-upload-action",
+  "version": "0.0.1",
   "private": true,
   "description": "TypeScript template action",
   "main": "lib/main.js",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/Kaosumaru/google-drive-upload-action.git"
   },
   "keywords": [
     "actions",
     "node",
-    "setup"
+    "drive"
   ],
-  "author": "",
+  "author": "Mateusz Borycki",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.6.0"

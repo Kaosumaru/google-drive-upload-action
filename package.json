@@ -6,11 +6,12 @@
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
+    "sample": "tsc --incremental && node lib/sample.js",
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
     "lint": "eslint src/**/*.ts",
     "package": "ncc build --source-map --license licenses.txt",
-    "test": "jest",
+    "test": "tsc --incremental && jest",
     "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
   },
   "repository": {
@@ -25,9 +26,14 @@
   "author": "Mateusz Borycki",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.6.0"
+    "@actions/core": "^1.6.0",
+    "@devnetic/load-env": "^1.1.0",
+    "base-64": "^1.0.0",
+    "googleapis": "^100.0.0",
+    "temporary": "^1.1.0"
   },
   "devDependencies": {
+    "@types/base-64": "^1.0.0",
     "@types/node": "^16.10.5",
     "@typescript-eslint/parser": "^5.8.1",
     "@vercel/ncc": "^0.31.1",

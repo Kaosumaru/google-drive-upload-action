@@ -1,21 +1,25 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+// import base-64
+import * as base64 from 'base-64'
+import { FileUploader } from './service'
+import { basename } from 'path';
+var tmp = require('temporary');
+
 
 async function run(): Promise<void> {
+
   try {
-    // const ms: string = core.getInput('milliseconds')
-    const credentials = core.getInput('credentials')
-    const filename = core.getInput('filename')
+    const credentials = base64.decode(core.getInput('credentials'))
+    const filePath = core.getInput('filePath')
     const folderId = core.getInput('folderId')
 
-    core.notice(`Uploading ${filename} to ${folderId}...`)
+    let authFile = new tmp.File();
+    authFile.writeFileSync(credentials);
 
-    const ms = "1000";
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    core.notice(`Uploading ${filePath} to ${folderId}...`)
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    let uploader = new FileUploader(authFile.path);
+    uploader.uploadFile(basename(filePath), filePath, 'text/plain', folderId)
 
     core.setOutput('time', new Date().toTimeString())
   } catch (error) {

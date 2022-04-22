@@ -34,7 +34,7 @@ async function run(): Promise<void> {
     if (error instanceof Error) core.setFailed(error.message)
   }
 
-  tmp.cleanup()
+  await tmp.cleanup()
 }
 
 run()

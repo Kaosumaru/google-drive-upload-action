@@ -1,5 +1,4 @@
 import * as core from '@actions/core'
-// import base-64
 import * as base64 from 'base-64'
 import { FileUploader } from './service'
 import { basename } from 'path';

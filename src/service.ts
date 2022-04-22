@@ -1,20 +1,9 @@
 import { createReadStream } from 'fs';
 import { drive_v3, google } from 'googleapis';
 
-export function getDriveService(authJson: string) {
-  const SCOPES = ['https://www.googleapis.com/auth/drive'];
-
-  const auth = new google.auth.GoogleAuth({
-    keyFile: authJson,
-    scopes: SCOPES,
-  });
-  const driveService = google.drive({ version: 'v3', auth });
-  return driveService;
-};
-
 export class FileUploader {
     constructor(authFile: string, driveId?: string) {
-        this.driveService = getDriveService(authFile);
+        this.driveService = FileUploader.getDriveService(authFile);
         if (driveId && driveId != "")
             this.driveId = driveId;
     }
@@ -37,6 +26,17 @@ export class FileUploader {
         });
         return file.data.id;
     }
+
+    static getDriveService(authJson: string) {
+        const SCOPES = ['https://www.googleapis.com/auth/drive'];
+      
+        const auth = new google.auth.GoogleAuth({
+          keyFile: authJson,
+          scopes: SCOPES,
+        });
+        const driveService = google.drive({ version: 'v3', auth });
+        return driveService;
+      };
 
     driveService: drive_v3.Drive;
     driveId: string | undefined;

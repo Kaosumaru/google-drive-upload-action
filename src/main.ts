@@ -10,6 +10,9 @@ async function run(): Promise<void> {
     const filePath = core.getInput('filePath')
     const folderId = core.getInput('folderId')
     const driveId = core.getInput('driveId')
+    let fileName = core.getInput('fileName')
+
+    fileName = fileName ? fileName : basename(filePath)
 
     const authFile = new tmp.File()
     authFile.writeFileSync(credentials)
@@ -17,7 +20,7 @@ async function run(): Promise<void> {
     core.notice(`Uploading ${filePath} to ${folderId}...`)
 
     const uploader = new FileUploader(authFile.path, driveId)
-    uploader.uploadFile(basename(filePath), filePath, folderId)
+    uploader.uploadFile(fileName, filePath, folderId)
 
     core.notice(`Finished uploading ${filePath} to ${folderId}`)
 

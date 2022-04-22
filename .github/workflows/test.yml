@@ -25,3 +25,4 @@ jobs:
           credentials: ${{ secrets.GOOGLE_AUTH }}
           filePath: ./test.txt
           folderId: 14NoF0UhftEcjOw6pok2nJDhASp9R9cWU
+          fileName: supertest.txt

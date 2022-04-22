@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
-var tmp = require('temporary')
 import * as base64 from 'base-64'
 import * as loadEnv from '@devnetic/load-env'
-import {FileUploader} from './service'
 import {basename} from 'path'
+import {FileUploader} from './service'
+import tempfile from 'tempfile'
+import {writeFile} from 'fs/promises'
 
 async function run(): Promise<void> {
   const config: Record<string, string> = loadEnv.load('__tests__/.env', {
@@ -14,13 +15,13 @@ async function run(): Promise<void> {
   const filePath = config['INPUT_FILEPATH']
   const folderId = config['INPUT_FOLDERID']
 
-  const authFile = new tmp.File()
-  authFile.writeFileSync(credentials)
+  const authFile = tempfile()
+  await writeFile(authFile, credentials)
 
   console.log(`Uploading ${filePath} to ${folderId}...`)
-  console.log(`${authFile.path}`)
+  console.log(`${authFile}`)
 
-  const uploader = new FileUploader(authFile.path)
+  const uploader = new FileUploader(authFile)
   await uploader.uploadFile(basename(filePath), filePath, folderId)
 }
 

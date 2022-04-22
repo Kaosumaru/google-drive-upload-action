@@ -1,5 +1,5 @@
-import {createReadStream} from 'fs'
 import {drive_v3, google} from 'googleapis'
+import {createReadStream} from 'fs'
 
 export class FileUploader {
   constructor(authFile: string, driveId?: string) {
@@ -11,7 +11,7 @@ export class FileUploader {
     fileName: string,
     filepath: string,
     folderId: string
-  ) {
+  ): Promise<string> {
     const fileMetadata = {
       name: fileName,
       parents: [folderId],
@@ -26,10 +26,10 @@ export class FileUploader {
       supportsAllDrives: true,
       fields: 'id'
     })
-    return file.data.id
+    return file.data.id as string
   }
 
-  static getDriveService(authJson: string) {
+  static getDriveService(authJson: string): drive_v3.Drive {
     const SCOPES = ['https://www.googleapis.com/auth/drive']
 
     const auth = new google.auth.GoogleAuth({

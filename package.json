@@ -9,7 +9,8 @@
     "sample": "tsc --incremental && node lib/sample.js",
     "format": "prettier --write \"src/**/*.ts\"",
     "format-check": "prettier --check \"src/**/*.ts\"",
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint \"src/**/*.ts\"",
+    "lint-fix": "eslint \"src/**/*.ts\" --fix",
     "package": "ncc build --source-map --license licenses.txt",
     "test": "tsc --incremental && jest",
     "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
@@ -30,6 +31,7 @@
     "@devnetic/load-env": "^1.1.0",
     "base-64": "^1.0.0",
     "googleapis": "^100.0.0",
+    "tempfile": "^4.0.0",
     "temporary": "^1.1.0"
   },
   "devDependencies": {

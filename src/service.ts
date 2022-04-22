@@ -15,7 +15,8 @@ export function getDriveService(authJson: string) {
 export class FileUploader {
     constructor(authFile: string, driveId?: string) {
         this.driveService = getDriveService(authFile);
-        this.driveId = driveId;
+        if (driveId && driveId != "")
+            this.driveId = driveId;
     }
 
     async uploadFile(fileName: string, filepath: string, mimeType: string, folderId: string) {

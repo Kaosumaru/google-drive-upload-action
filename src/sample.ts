@@ -8,7 +8,6 @@ async function run(): Promise<void> {
     const config: Record<string, string> = loadEnv.load('__tests__/.env', { returnConfig: true }) as Record<string, string>;
     console.log("Hello world");
 
-    
     const credentials = base64.decode(config['INPUT_CREDENTIALS'])
     const filePath = config['INPUT_FILEPATH']
     const folderId = config['INPUT_FOLDERID']

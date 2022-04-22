@@ -4,13 +4,12 @@ import {drive_v3, google} from 'googleapis'
 export class FileUploader {
   constructor(authFile: string, driveId?: string) {
     this.driveService = FileUploader.getDriveService(authFile)
-    if (driveId && driveId != '') this.driveId = driveId
+    if (driveId && driveId !== '') this.driveId = driveId
   }
 
   async uploadFile(
     fileName: string,
     filepath: string,
-    mimeType: string,
     folderId: string
   ) {
     const fileMetadata = {
@@ -19,7 +18,6 @@ export class FileUploader {
       driveId: this.driveId
     }
     const media = {
-      mimeType,
       body: createReadStream(filepath)
     }
     const file = await this.driveService.files.create({

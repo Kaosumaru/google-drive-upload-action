@@ -17,7 +17,7 @@ async function run(): Promise<void> {
     core.notice(`Uploading ${filePath} to ${folderId}...`)
 
     const uploader = new FileUploader(authFile.path, driveId)
-    uploader.uploadFile(basename(filePath), filePath, 'text/plain', folderId)
+    uploader.uploadFile(basename(filePath), filePath, folderId)
 
     core.notice(`Finished uploading ${filePath} to ${folderId}`)
 

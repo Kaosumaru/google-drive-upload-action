@@ -21,12 +21,7 @@ async function run(): Promise<void> {
   console.log(`${authFile.path}`)
 
   const uploader = new FileUploader(authFile.path)
-  await uploader.uploadFile(
-    basename(filePath),
-    filePath,
-    'text/plain',
-    folderId
-  )
+  await uploader.uploadFile(basename(filePath), filePath, folderId)
 }
 
 run()

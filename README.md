@@ -1,105 +1,65 @@
 <p align="center">
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
+  <a href="https://github.com/Kaosumaru/google-drive-upload-action/actions"><img alt="typescript-action status" src="https://github.com/Kaosumaru/google-drive-upload-action/workflows/build-test/badge.svg"></a>
 </p>
 
-# Create a JavaScript Action using TypeScript
 
-Use this template to bootstrap the creation of a TypeScript action.:rocket:
+# google-drive-upload-action
+Github action that uploads files to Google Drive.
+**You need google service account!**
 
-This template includes compilation support, tests, a validation workflow, publishing, and versioning guidance.  
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
+# Inputs
 
-## Create an action from this template
+## ``credentials``
+Required: **YES**.
 
-Click the `Use this Template` and provide the new repo details for your action
+A base64 encoded string with the [GSA credentials](https://stackoverflow.com/questions/46287267/how-can-i-get-the-file-service-account-json-for-google-translate-api/46290808).
 
-## Code in Main
+## ``filePath``
+Required: **YES**.  
 
-> First, you'll need to have a reasonably modern version of `node` handy. This won't work with versions older than 9, for instance.
+The name of the file or directory that you want to upload. Directory will be zipped & uploaded.
 
-Install the dependencies  
-```bash
-$ npm install
-```
+## ``folderId``
+Required: **YES**. 
 
-Build the typescript and package it for distribution
-```bash
-$ npm run build && npm run package
-```
+The [ID of the folder](https://ploi.io/documentation/database/where-do-i-get-google-drive-folder-id) you want to upload to.
 
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
+## ``fileName``
+Required: **NO**
 
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
+The name you want the file to have in Google Drive. If this input is not provided, it will use only the filename of the source path.
 
-...
-```
+## ``driveId``
+Required: **NO**
 
-## Change action.yml
+If folder is on shared drive, you need to also provide drive id.
 
-The action.yml defines the inputs and output for your action.
 
-Update the action.yml with your name, description, inputs and outputs for your action.
+# Usage Example
 
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-import * as core from '@actions/core';
-...
-
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Publish to a distribution branch
-
-Actions are run from GitHub repos so we will checkin the packed dist folder. 
-
-Then run [ncc](https://github.com/zeit/ncc) and push the results:
-```bash
-$ npm run package
-$ git add dist
-$ git commit -a -m "prod dependencies"
-$ git push origin releases/v1
-```
-
-Note: We recommend using the `--license` option for ncc, which will create a license file for all of the production node modules used in your project.
-
-Your action is now published! :rocket: 
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Validate
-
-You can now validate the action by referencing `./` in a workflow in your repo (see [test.yml](.github/workflows/test.yml))
-
+## Simple Workflow
+In this example we stored the folderId and credentials as action secrets. This is highly recommended as leaking your credentials key will allow anyone to use your service account.
 ```yaml
-uses: ./
-with:
-  milliseconds: 1000
+# .github/workflows/main.yml
+name: Main
+on: [push]
+
+jobs:
+  my_job:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Upload to drive
+        uses: Kaosumaru/google-drive-upload-action@v1
+        with:
+          credentials: ${{ secrets.credentials }}
+          filePath: ./archive
+          folderId: ${{ secrets.folderId }}
+          fileName: documentation.zip # optional string
+          
 ```
-
-See the [actions tab](https://github.com/actions/typescript-action/actions) for runs of this action! :rocket:
-
-## Usage:
-
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action

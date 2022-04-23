@@ -27,7 +27,7 @@ async function run(): Promise<void> {
 
     // upload file to google drive
     const uploader = new FileUploader(authFile, driveId)
-    uploader.uploadFile(fileName, filePath, folderId)
+    await uploader.uploadFile(fileName, filePath, folderId)
 
     core.notice(`Finished uploading ${filePath} to ${folderId}`)
   } catch (error) {

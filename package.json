@@ -27,7 +27,7 @@
   "author": "Mateusz Borycki",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.7.0",
+    "@actions/core": "^1.9.0",
     "@devnetic/load-env": "^1.1.0",
     "base-64": "^1.0.0",
     "googleapis": "^100.0.0",
